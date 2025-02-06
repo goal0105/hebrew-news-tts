@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text-to-Speech Player</title>
+</head>
+<body align="center">
+    <h1>Flask Text-to-Speech</h1>
+    <textarea id="textInput" rows="4" cols="50" placeholder="Enter text"></textarea>
+    <br>
+    <button onclick="generateTTS()">Generate Speech</button>
+    <br><br>
+    <audio id="audioPlayer" controls></audio>
+
+    <script>
+        function generateTTS() {
+            const text = document.getElementById("textInput").value;
+            fetch("/generate_tts", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ text: text })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.audio_url) {
+                    document.getElementById("audioPlayer").src = data.audio_url;
+                } else {
+                    alert("Error: " + data.error);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
