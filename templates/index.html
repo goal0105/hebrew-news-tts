@@ -4,16 +4,155 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text-to-Speech Player</title>
+    <style>
+        body {
+            text-align: center; /* Center-align all content */
+             font-family: Arial, sans-serif; 
+        }
+
+        .button-container {
+            margin-bottom: 5px;
+            font-size: 14px;
+            /*text-align: left; /* Align the content inside the div to the left */
+        }
+
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin: 0 auto;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .col1 {
+            width: 20%;
+        }
+
+        .col2 {
+            width: 50%;
+        }
+
+        .col3 {
+            width: 30%;
+        }
+
+    </style>
 </head>
-<body align="center">
-    <h1>Flask Text-to-Speech</h1>
-    <textarea id="textInput" rows="4" cols="50" placeholder="Enter text"></textarea>
-    <br>
-    <button onclick="generateTTS()">Generate Speech</button>
-    <br><br>
-    <audio id="audioPlayer" controls></audio>
+<body>
+    <h1>HEBREW NEWS</h1>
+
+    <div class="button-container">
+        <button onclick="updateTweets()">Update News</button> 
+        <button onclick="generateTTS()">Generate Speech</button>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th class="col1">Article Title</th>
+                <th class="col2">Article Content</th>
+                <th class="col3">Audio</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="col1">Article 1</td>
+                <td id = "news1" class="col2">ישראל אזולאי – חדשנות, תקשורת וטכנולוגיה
+                    ישראל אזולאי הוא איש חזון ומומחה לטכנולוגיה ותקשורת, בעל ניסיון עשיר בהובלת פרויקטים חדשניים בתחומי המדיה, האוטומציה והבינה המלאכותית.
+                    כמייסד Connectop, ישראל פיתח פתרונות אוטומציה חכמים ושירותי אינטגרציה מתקדמים, המובילים מהפכה דיגיטלית בתעשייה. בנוסף, הוא מחזיק בתפקיד סמנכ"ל אסטרטגיה וחדשנות בקבוצת תקשורת מובילה בישראל, שם הוא אחראי על פיתוח טכנולוגיות מבוססות AI וייעול מערכות תוכן ושידור.
+                    מעבר להיותו יזם מצליח, ישראל בעל ניסיון נרחב בניהול תחנות רדיו והפקת תכנים איכותיים לקהלים מגוונים. הוא מתמחה ביצירת חוויות משתמש מתקדמות, חיבור בין טכנולוגיה למדיה, ושדרוג מערכות תוכן לתעשיית החדשות והבידור.
+                    ישראל מחויב לשינוי ולחדשנות, ומשמש כמוביל דעה בתחום האינטגרציה הדיגיטלית, עיצוב ממשקי משתמש חכמים ושיפור חוויות צרכן בעידן הטכנולוגי החדש.</td>
+                <td class="col3"> <audio id="audio1" controls></audio></td>
+            </tr>
+            <tr>
+                <td class="col1">Article 2</td>
+                <td id = "news2" class="col2">Row 2, Cell 2</td>
+                <td class="col3"><audio id="audio2" controls></audio></td>
+            </tr>
+            <tr>
+                <td class="col1">Article 3</td>
+                <td id = "news3" class="col2">Row 3, Cell 2</td>
+                <td class="col3"><audio id="audio3" controls></audio></td>
+            </tr>
+            <tr>
+                <td class="col1">Article 4</td>
+                <td id = "news4" class="col2">Row 4, Cell 2</td>
+                <td class="col3"><audio id="audio4" controls></audio></td>
+            </tr>
+            <tr>
+                <td class="col1">Article 5</td>
+                <td id = "news5" class="col2">Row 5, Cell 2</td>
+                <td class="col3"><audio id="audio5" controls></audio></td>
+            </tr>
+            <tr>
+                <td class="col1">Article 6</td>
+                <td id = "news6" class="col2">Row 6, Cell 2</td>
+                <td class="col3"><audio id="audio6" controls></audio></td>
+            </tr>
+            <tr>
+                <td class="col1">Article 7</td>
+                <td id = "news7" class="col2">Row 7, Cell 2</td>
+                <td class="col3"><audio id="audio7" controls></audio></td>
+            </tr>
+            <tr>
+                <td class="col1">Article 8</td>
+                <td id = "news8" class="col2">Row 8, Cell 2</td>
+                <td class="col3"><audio id="audio8" controls></audio></td>
+            </tr>
+            <tr>
+                <td class="col1">Article 9</td>
+                <td id = "news9" class="col2">Row 9, Cell 2</td>
+                <td class="col3"><audio id="audio9" controls></audio></td>
+            </tr>
+            <tr>
+                <td class="col1">Article 10</td>
+                <td id = "news10" class="col2">Row 10, Cell 2</td>
+                <td class="col3"><audio id="audio10" controls></audio></td>
+            </tr>
+        </tbody>
+    </table>
 
     <script>
+        async function updateTweets() {
+            // Select the nth row and its second cell (index 1 for both row and cell)
+            //for (let i = 1; i <= 10; i++) {
+              //  const row = document.querySelector(`table tbody tr:nth-child(${i})`);
+                //const cell = row.querySelector("td:nth-child(2)");
+                //const audio = row.querySelector("td:nth-child(3) audio");
+
+                // Update the text content of the cell
+                //cell.textContent = `Updated news content for Article ${i}.`;
+
+                // Update the audio source
+                //audio.src = `/audio/${i}.mp3`;
+            //}
+
+            // Update the text content of the cell
+            try {
+                const response = await fetch("/update_tweets");
+                const data = await response.json();
+                if(data.tweets)
+                    data.tweets.forEach((tweet, index) => {
+                        console.log(`Test Get Requests : ${data.tweets}`);
+                        const row = document.querySelector(`table tbody tr:nth-child(${index + 1})`);
+                        const cell = row.querySelector("td:nth-child(2)");
+                        const audio = row.querySelector("td:nth-child(3) audio");
+
+                        cell.textContent = tweet.text;
+                    })
+                    
+            } catch (error) {
+                console.error("Error fetching tweets:", error);
+            }
+        }
+
         function generateTTS() {
             const text = document.getElementById("textInput").value;
             fetch("/generate_tts", {
@@ -31,5 +170,6 @@
             });
         }
     </script>
+
 </body>
 </html>

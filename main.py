@@ -1,6 +1,13 @@
 from flask import Flask, request, jsonify, send_file, render_template
 import os
 from TTS.api import TTS
+import tweepy
+
+API_KEY = "your_api_key"
+API_KEY_SECRET = "your_api_key_secret"
+ACCESS_TOKEN = "your_access_token"
+ACCESS_TOKEN_SECRET = "your_access_token_secret"
+BEARER_TOKEN = "AAAAAAAAAAAAAAAAAAAAAHPkygEAAAAAUGRfTB4mR772w9YjC9NMwFyRLS0%3DK1NRkWhDTX3I98ZsxUHp5YGsdjriKyesKZTvbOjGODJ50BPsCa"
 
 app = Flask(__name__)
 
@@ -10,12 +17,31 @@ os.makedirs(AUDIO_DIR, exist_ok=True)
 
 # Initialize TTS model
 print("Loading TTS model...")
-tts = TTS(model_name="tts_models/en/ljspeech/glow-tts")
+# tts = TTS(model_name="tts_models/en/ljspeech/glow-tts")
 print("TTS model loaded.")
+
+# Authenticate with Twitter API
+client = tweepy.Client(bearer_token=BEARER_TOKEN)
 
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/update_tweets", methods=["GET"])
+def update_tweets():
+    try:
+        # Fetch recent tweets in Hebrew about Israel
+        query = "ישראל חדשות"
+        tweets = client.search_recent_tweets(query=query, max_results=10)
+
+        print("getting tweets successfully")
+        # Return tweets as JSON
+        return jsonify({"tweets": tweets.data})
+        # return jsonify({"tweets": "test data"}) 
+    
+    except Exception as e:
+        print(f"Error fetching tweets: {e}")
+        return jsonify({"error": str(e)}), 500
 
 @app.route("/generate_tts", methods=["POST"])
 def generate_tts():
@@ -28,7 +54,7 @@ def generate_tts():
     file_path = os.path.join(AUDIO_DIR, "output.wav")
     
     # Generate speech from text
-    tts.tts_to_file(text=text, file_path=file_path)
+    # tts.tts_to_file(text=text, file_path=file_path)
 
     return jsonify({"audio_url": f"/play_audio?file=output.wav"})
 
