@@ -121,32 +121,36 @@
 
     <script>
         async function updateTweets() {
-            // Select the nth row and its second cell (index 1 for both row and cell)
-            //for (let i = 1; i <= 10; i++) {
-              //  const row = document.querySelector(`table tbody tr:nth-child(${i})`);
-                //const cell = row.querySelector("td:nth-child(2)");
-                //const audio = row.querySelector("td:nth-child(3) audio");
-
-                // Update the text content of the cell
-                //cell.textContent = `Updated news content for Article ${i}.`;
-
-                // Update the audio source
-                //audio.src = `/audio/${i}.mp3`;
-            //}
-
-            // Update the text content of the cell
             try {
                 const response = await fetch("/update_tweets");
                 const data = await response.json();
-                if(data.tweets)
-                    data.tweets.forEach((tweet, index) => {
-                        console.log(`Test Get Requests : ${data.tweets}`);
-                        const row = document.querySelector(`table tbody tr:nth-child(${index + 1})`);
-                        const cell = row.querySelector("td:nth-child(2)");
-                        const audio = row.querySelector("td:nth-child(3) audio");
+                console.log(data.tweets);
 
-                        cell.textContent = tweet.text;
-                    })
+                // Test Code pass
+                // if (data.tweets){
+                //     console.log("Fetching tweets successfully");
+                //     console.log(data.tweets);
+                //     for (let i = 0; i < data.tweets.length; i++) {
+                //         console.log(`index : ${i + 1}`);
+                //         console.log(`Tweet : ${data.tweets[i]}`);
+                //         const row = document.querySelector(`table tbody tr:nth-child(${i + 1})`);
+                //         const cell = row.querySelector("td:nth-child(2)");
+                //         const audio = row.querySelector("td:nth-child(3) audio");
+                //         cell.textContent = data.tweets[i];
+                //     }
+                // }
+
+
+                
+                // Test code
+                data.tweets.forEach((tweet, index) => {
+                    console.log(`Tweet : ${tweet}`);
+                    const row = document.querySelector(`table tbody tr:nth-child(${index + 1})`);
+                    const cell = row.querySelector("td:nth-child(2)");
+                    // const audio = row.querySelector("td:nth-child(3) audio");
+
+                    cell.textContent = tweet.text;
+                })
                     
             } catch (error) {
                 console.error("Error fetching tweets:", error);

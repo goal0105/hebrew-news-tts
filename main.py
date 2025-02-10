@@ -34,10 +34,13 @@ def update_tweets():
         query = "ישראל חדשות"
         tweets = client.search_recent_tweets(query=query, max_results=10)
 
-        print("getting tweets successfully")
+        print("Return tweets data")
         # Return tweets as JSON
         return jsonify({"tweets": tweets.data})
-        # return jsonify({"tweets": "test data"}) 
+
+        # test code
+        # tweets =["Tweet 1", "Tweet 2", "Tweet 3"]  # Mock data
+        # return jsonify({"tweets": tweets}) 
     
     except Exception as e:
         print(f"Error fetching tweets: {e}")
